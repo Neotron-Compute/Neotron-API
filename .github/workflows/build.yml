@@ -1,0 +1,24 @@
+on: [push, pull_request]
+name: Build (and Release)
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    name: Build (and Release)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      - name: Build lib (native)
+        run: |
+          cargo build --verbose
+
+      - name: Test lib (native)
+        run: |
+          cargo test --verbose
