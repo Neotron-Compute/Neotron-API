@@ -2,7 +2,7 @@
 
 /// Represents an open directory
 #[repr(C)]
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq, Copy, Clone)]
 pub struct Handle(u8);
 
 impl Handle {
