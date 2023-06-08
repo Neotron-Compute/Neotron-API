@@ -76,14 +76,18 @@ pub struct Api {
     ///
     /// Some files do not support seeking and will produce an error.
     pub seek_set: extern "C" fn(fd: file::Handle, position: u64) -> Result<()>,
-    /// Move the file offset (for the given file handle) relative to the current position
+    /// Move the file offset (for the given file handle) relative to the current position.
+    ///
+    /// Returns the new file offset.
     ///
     /// Some files do not support seeking and will produce an error.
-    pub seek_cur: extern "C" fn(fd: file::Handle, offset: i64) -> Result<()>,
+    pub seek_cur: extern "C" fn(fd: file::Handle, offset: i64) -> Result<u64>,
     /// Move the file offset (for the given file handle) to the end of the file
     ///
+    /// Returns the new file offset.
+    ///
     /// Some files do not support seeking and will produce an error.
-    pub seek_end: extern "C" fn(fd: file::Handle) -> Result<()>,
+    pub seek_end: extern "C" fn(fd: file::Handle) -> Result<u64>,
     /// Rename a file.
     ///
     /// # Limitations
