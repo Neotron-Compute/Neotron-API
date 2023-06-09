@@ -8,6 +8,8 @@ authors = [
 ]
 readme = "README.md"
 license = "MIT OR Apache-2.0"
+description = "The API between Neotron OS and Neotron applications"
+repository = "https://github.com/neotron-compute/neotron-api"
 
 [dependencies]
 neotron-ffi = "0.1"
