@@ -157,8 +157,8 @@ pub struct Api {
 #[repr(C)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum Error {
-    /// The given file path was not found
-    FileNotFound,
+    /// The given file/directory path was not found
+    NotFound,
     /// Tried to write to a read-only file
     FileReadOnly,
     /// Reached the end of the file
@@ -167,8 +167,8 @@ pub enum Error {
     Unimplemented,
     /// An invalid argument was given to the API
     InvalidArg,
-    /// A bad file handle was given to the API
-    BadFileHandle,
+    /// A bad handle was given to the API
+    BadHandle,
     /// An device-specific error occurred. Look at the BIOS source for more details.
     DeviceSpecific,
     /// The OS does not have enough memory
