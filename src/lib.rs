@@ -109,14 +109,19 @@ pub struct Api {
     pub stat: extern "C" fn(path: file::Path) -> Result<file::Stat>,
     /// Get information about an open file.
     pub fstat: extern "C" fn(fd: file::Handle) -> Result<file::Stat>,
-    /// Delete a file or directory.
+    /// Delete a file.
     ///
     /// # Limitations
     ///
     /// * You cannot delete a file if it is currently open.
+    pub deletefile: extern "C" fn(path: file::Path) -> Result<()>,
+    /// Delete a directory.
+    ///
+    /// # Limitations
+    ///
     /// * You cannot delete a root directory.
-    /// * You cannot delete a directory that has any files in it.
-    pub delete: extern "C" fn(path: file::Path) -> Result<()>,
+    /// * You cannot delete a directory that has any files or directories in it.
+    pub deletedir: extern "C" fn(path: file::Path) -> Result<()>,
     /// Change the current directory.
     ///
     /// Relative file paths (e.g. passed to `Api::open`) are taken to be relative to the current directory.
