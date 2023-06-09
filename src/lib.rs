@@ -139,7 +139,7 @@ pub struct Api {
     /// The current directory is stored as UTF-8 into the given buffer. The
     /// function returns the number of bytes written to the buffer, or an error.
     /// If the function did not return an error, the buffer can be assumed to
-    /// contain a valid file path.
+    /// contain a valid file path. That path will not be null terminated.
     pub pwd: extern "C" fn(path: FfiBuffer) -> Result<usize>,
     /// Allocate some memory.
     ///
