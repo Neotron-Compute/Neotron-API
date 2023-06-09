@@ -13,6 +13,10 @@ Note that this API must be FFI-safe, because the [Neotron OS] and the Applicatio
 
 ### Unreleased Changes
 
+* None
+
+### v0.1.0
+
 * First Version
 
 ## Licence
