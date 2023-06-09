@@ -12,6 +12,7 @@
 
 pub mod dir;
 pub mod file;
+pub mod path;
 
 pub use neotron_ffi::{FfiBuffer, FfiByteSlice, FfiString};
 
@@ -47,7 +48,7 @@ pub struct Api {
     /// * You cannot open a file if it is currently open.
     /// * Paths must confirm to the rules for the filesystem for the given drive.
     /// * Relative paths are taken relative to the current directory (see `Api::chdir`).
-    pub open: extern "C" fn(path: file::Path, flags: file::Flags) -> Result<file::Handle>,
+    pub open: extern "C" fn(path: FfiString, flags: file::Flags) -> Result<file::Handle>,
     /// Close a previously opened file.
     ///
     /// Closing a file is important, as only this action will cause the
@@ -96,17 +97,17 @@ pub struct Api {
     /// * You cannot rename a file where the `old_path` and the `new_path` are
     /// not on the same drive.
     /// * Paths must confirm to the rules for the filesystem for the given drive.
-    pub rename: extern "C" fn(old_path: file::Path, new_path: file::Path) -> Result<()>,
+    pub rename: extern "C" fn(old_path: FfiString, new_path: FfiString) -> Result<()>,
     /// Perform a special I/O control operation.
     pub ioctl: extern "C" fn(fd: file::Handle, command: u64, value: u64) -> Result<u64>,
     /// Open a directory, given a path as a UTF-8 string.
-    pub opendir: extern "C" fn(path: file::Path) -> Result<dir::Handle>,
+    pub opendir: extern "C" fn(path: FfiString) -> Result<dir::Handle>,
     /// Close a previously opened directory.
     pub closedir: extern "C" fn(dir: dir::Handle) -> Result<()>,
     /// Read from an open directory
     pub readdir: extern "C" fn(dir: dir::Handle) -> Result<dir::Entry>,
     /// Get information about a file.
-    pub stat: extern "C" fn(path: file::Path) -> Result<file::Stat>,
+    pub stat: extern "C" fn(path: FfiString) -> Result<file::Stat>,
     /// Get information about an open file.
     pub fstat: extern "C" fn(fd: file::Handle) -> Result<file::Stat>,
     /// Delete a file.
@@ -114,21 +115,21 @@ pub struct Api {
     /// # Limitations
     ///
     /// * You cannot delete a file if it is currently open.
-    pub deletefile: extern "C" fn(path: file::Path) -> Result<()>,
+    pub deletefile: extern "C" fn(path: FfiString) -> Result<()>,
     /// Delete a directory.
     ///
     /// # Limitations
     ///
     /// * You cannot delete a root directory.
     /// * You cannot delete a directory that has any files or directories in it.
-    pub deletedir: extern "C" fn(path: file::Path) -> Result<()>,
+    pub deletedir: extern "C" fn(path: FfiString) -> Result<()>,
     /// Change the current directory.
     ///
     /// Relative file paths (e.g. passed to `Api::open`) are taken to be relative to the current directory.
     ///
     /// Unlike on MS-DOS, there is only one current directory for the whole
     /// system, not one per drive.
-    pub chdir: extern "C" fn(path: file::Path) -> Result<()>,
+    pub chdir: extern "C" fn(path: FfiString) -> Result<()>,
     /// Change the current directory to the given open directory.
     ///
     /// Unlike on MS-DOS, there is only one current directory for the whole
@@ -176,6 +177,18 @@ pub enum Error {
     /// The given path was invalid
     InvalidPath,
 }
+
+// ============================================================================
+// Functions
+// ============================================================================
+
+// None
+
+// ============================================================================
+// Tests
+// ============================================================================
+
+// None
 
 // ============================================================================
 // End of File
