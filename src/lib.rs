@@ -152,6 +152,48 @@ pub struct Api {
     ///
     /// You must pass the same `size` and `alignment` values that you passed to `malloc`.
     pub free: extern "C" fn(ptr: *mut core::ffi::c_void, size: usize, alignment: usize),
+    /// Learn about the current video mode.
+    ///
+    /// Pass the value to `video_mode_info` to learn about the current
+    /// resolution and colour depth. You will get an error if the system is
+    /// using a serial console rather than a video display.
+    pub video_mode_get: extern "C" fn() -> Result<u8>,
+    /// Learn about the supported video mode.
+    ///
+    /// Video modes are not necessarily consecutive - if you want to learn
+    /// about all video modes, iterate from `0..=255` and note which ones do
+    /// not return an error.
+    pub video_mode_info: extern "C" fn(mode: u8) -> Result<VideoModeInfo>,
+    /// Change the current video mode.
+    ///
+    /// The OS will attempt to allocate space, if required, for this video mode
+    /// from the top of the TPA. If there is insufficient RAM available, an
+    /// error is returned and the video mode is not changed.
+    ///
+    /// If the mode change is succesful, you will receive a pointer to
+    /// framebuffer. Any writes there will appear on the display.
+    pub video_mode_set: extern "C" fn(mode: u8) -> Result<*mut u8>,
+}
+
+/// Describes a video mode
+#[repr(C)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+pub struct VideoModeInfo {
+    /// Width of the graphics mode in pixels, or text mode in characters
+    width: u16,
+    /// Height of the graphics mode in pixels, or text mode in characters
+    height: u16,
+    /// Colour depth of the graphics mode
+    ///
+    /// * `0` - text mode
+    /// * `1` - one bit per pixel, black and white, indexed
+    /// * `2` - two bits per pixel, 4 colours, indexed
+    /// * `4` - four bits per pixel, 16 colours, indexed
+    /// * `8` - eight bits per pixel, 256 colours, indexed
+    /// * `15` - 15 bits per pixel, RGB555 high-colour
+    /// * `16` - 16 bits per pixel, RGB565 high-colour
+    /// * `32` - 32 bits per pixel, RGBA true-colour
+    colour_depth: u8,
 }
 
 /// The type of the entry function for an application
