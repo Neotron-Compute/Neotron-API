@@ -154,6 +154,19 @@ pub struct Api {
     pub free: extern "C" fn(ptr: *mut core::ffi::c_void, size: usize, alignment: usize),
 }
 
+/// The type of the entry function for an application
+///
+/// * `api` is a pointer to the [`Api`] callback table
+/// * `argc` is the number of arguments passed. If this is non-zero, then `argv`
+///   must be non-null.
+/// * `argv` is a pointer to the start of an array of arguments to the program.
+///   Every item in that array is a [`FfiString`]. There are `argc` items in the
+///   array.
+///
+/// The function should return `0` on success, or anything else to indicate an
+/// error.
+pub type AppStartFn = extern "C" fn(api: *const Api, argc: usize, argv: *const FfiString) -> i32;
+
 /// Describes how something has failed
 #[repr(C)]
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
