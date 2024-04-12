@@ -15,6 +15,10 @@ Note that this API must be FFI-safe, because the [Neotron OS] and the Applicatio
 
 * None
 
+### v0.2.0
+
+* Introduce new type for application entry points (supports passing arguments)
+
 ### v0.1.0
 
 * First Version

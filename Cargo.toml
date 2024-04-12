@@ -1,6 +1,6 @@
 [package]
 name = "neotron-api"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 authors = [
     "Jonathan 'theJPster' Pallant <github@thejpster.org.uk>",
